@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import "./AskWisdom.css";
+import "./AskWisdom.css"; // Reusing the same CSS file
 
-const AskWisdom = () => {
+const BuddhistWisdom = () => {
   const [question, setQuestion] = useState("");
   const [response, setResponse] = useState("");
   const [loading, setLoading] = useState(false);
@@ -17,7 +17,7 @@ const AskWisdom = () => {
         setAnimatedResponse((prev) => prev + response.split(" ")[index] + " ");
         index++;
         if (index >= response.split(" ").length) clearInterval(interval);
-      }, 100); // Adjust speed here (300ms per word)
+      }, 100); // Adjust speed here (100ms per word)
 
       return () => clearInterval(interval);
     }
@@ -33,7 +33,7 @@ const AskWisdom = () => {
 
     try {
       const res = await axios.post(
-        "http://127.0.0.1:5000/get_response",
+        "http://127.0.0.1:5003/get_response_buddhism", // ✅ Flask API for Buddhism
         { question },
         { headers: { "Content-Type": "application/json" } }
       );
@@ -53,22 +53,22 @@ const AskWisdom = () => {
         textAlign: "center",
         padding: "50px",
         color: "white",
-        background: "rgba(0, 0, 0, 0.6)", // Make background semi-transparent
+        background: "rgba(0, 0, 0, 0.6)", // Semi-transparent background
         minHeight: "100vh",
-        position: "relative", // Ensure layering works
-        zIndex: "1", // Keep content above video
+        position: "relative",
+        zIndex: "1",
       }}
     >
-      {/* 🔥 Background Video */}
+      {/* 🎥 Background Video */}
       <video autoPlay loop muted className="background-video">
         <source
-          src="http://127.0.0.1:5000/static/videos/background.mp4"
+          src="http://127.0.0.1:5003/static/videos/background.mp4" // ✅ Use a Buddhist-themed video
           type="video/mp4"
         />
         Your browser does not support the video tag.
       </video>
 
-      <h1>Ask Hinduism AI 🕉️</h1>
+      <h1>Ask Buddhist AI </h1>
       <form onSubmit={handleSubmit}>
         <input
           type="text"
@@ -90,7 +90,7 @@ const AskWisdom = () => {
           type="submit"
           style={{
             padding: "10px 20px",
-            background: "#ff6600",
+            background: "#cc9900", // ✅ Golden color theme for Buddhism
             border: "none",
             color: "white",
             fontWeight: "bold",
@@ -104,7 +104,7 @@ const AskWisdom = () => {
         </button>
       </form>
 
-      {/* 🔥 Animated Word-by-Word Response */}
+      {/* 🎤 Animated Word-by-Word Response */}
       {response && (
         <div
           style={{
@@ -122,4 +122,4 @@ const AskWisdom = () => {
   );
 };
 
-export default AskWisdom;
+export default BuddhistWisdom;

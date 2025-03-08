@@ -5,21 +5,18 @@ from langchain_community.vectorstores import FAISS
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_huggingface import HuggingFaceEmbeddings
 from flask_cors import CORS
-from flask import request, jsonify
+
 # ✅ Set up Gemini API Key
 GOOGLE_API_KEY = "AIzaSyBLT7FUKefytf81Exb4MNkB3_LoFh9Cns0"
 genai.configure(api_key=GOOGLE_API_KEY)
 
 # ✅ Flask App
-app = Flask(__name__,static_folder="static")
-
-CORS(app, supports_credentials=True)
-
- # Allow requests from any origin
+app = Flask(__name__, static_folder="static")
+CORS(app, resources={r"/*": {"origins": "*"}})
 
 # ✅ Paths
-DATA_PATH = "faiss_index"
-TEXT_PATH = "BG.txt"
+DATA_PATH = "faiss_index_muslim"
+TEXT_PATH = "Quran.txt"
 
 # ✅ Load FAISS Index (or create if missing)
 if os.path.exists(DATA_PATH):
@@ -45,7 +42,7 @@ def retrieve_context(question):
 # ✅ Generate response using Gemini
 def get_gemini_response(question, context):
     model = genai.GenerativeModel("gemini-1.5-pro")
-    prompt = f"Context: {context}\n\nQuestion: {question}\n\nAnswer in 7-8 lines as a wise sage from the Bhagavad Gita."
+    prompt = f"Context: {context}\n\nQuestion: {question}\n\nAnswer in 7-8 lines as a wise sage from the Quran."
     response = model.generate_content(prompt)
     return response.text.strip()
 
@@ -58,7 +55,7 @@ def home():
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Digital Temple</title>
+        <title>Digital Mosque</title>
         <style>
             * { margin: 0; padding: 0; box-sizing: border-box; }
             body {
@@ -107,7 +104,7 @@ def home():
             }
             input[type="submit"] {
                 padding: 12px 20px;
-                background: #ff6600;
+                background: #007bff;
                 border: none;
                 color: white;
                 font-weight: bold;
@@ -116,16 +113,10 @@ def home():
                 transition: all 0.3s ease-in-out;
             }
             input[type="submit"]:hover {
-                background: #cc5200;
+                background: #0056b3;
                 box-shadow: 0px 0px 20px rgba(255, 255, 255, 0.5);
             }
         </style>
-        <script>
-            function changeVideo() {
-                document.getElementById('bgVideo').querySelector('source').setAttribute('src', 'static/videos/background.mp4');
-                document.getElementById('bgVideo').load();
-            }
-        </script>
     </head>
     <body>
         <video autoplay loop class="background-video" id="bgVideo">
@@ -133,8 +124,8 @@ def home():
         </video>
         <div class="container">
             <div class="glass-box">
-                <h1>Ask Hinduism AI</h1>
-                <form action="/get_response" method="POST" onsubmit="changeVideo()">
+                <h1>Ask Islam AI</h1>
+                <form action="/get_response_islam" method="POST">
                     <input type="text" name="question" placeholder="Ask your question..." required>
                     <input type="submit" value="Get Wisdom">
                 </form>
@@ -144,9 +135,8 @@ def home():
     </html>
     '''
 
-@app.route('/get_response', methods=['POST'])
-def get_response():
-    # Handle both JSON (React) and Form Data (HTML)
+@app.route('/get_response_islam', methods=['POST'])
+def get_response_islam():
     data = request.get_json()
     question = data.get("question") if data else request.form.get("question")
 
@@ -156,15 +146,13 @@ def get_response():
     context = retrieve_context(question)
     response = get_gemini_response(question, context)
 
-    # If it's a JSON request, return JSON response for React
     if data:
         return jsonify({"response": response})
 
-    # Otherwise, return the HTML response with word-by-word animation
     return render_template_string(f'''
     <html>
     <head>
-        <title>Your Wisdom</title>
+        <title>Your Islamic Wisdom</title>
         <style>
             body {{
                 font-family: Arial, sans-serif;
@@ -216,14 +204,14 @@ def get_response():
             a {{
                 display: block;
                 margin-top: 20px;
-                color: #ff6600;
+                color: #007bff;
                 font-size: 1.2rem;
                 text-decoration: none;
             }}
         </style>
         <script>
             function showResponseText() {{
-                const responseText = {{ response | tojson }};
+                const responseText = { response | tojson };
                 const words = responseText.split(" ");
                 const responseContainer = document.getElementById("responseText");
 
@@ -233,13 +221,13 @@ def get_response():
                     span.style.animationDelay = `${{index * 300}}ms`;
                     span.textContent = word + " ";
                     responseContainer.appendChild(span);
-                }});
+                }});    
             }}
         </script>
     </head>
     <body onload="showResponseText()">
         <div class="response-container">
-            <h1>Your Wisdom</h1>
+            <h1>Your Islamic Wisdom</h1>
             <p id="responseText"></p>
             <a href="/">Try Again</a>
         </div>
@@ -253,4 +241,4 @@ def get_response():
     ''')
 
 if __name__ == '__main__':
-    app.run(port=5000, debug=True)
+    app.run(port=5002, debug=True)

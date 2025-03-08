@@ -48,7 +48,7 @@ const ReligionSelectionPage = () => {
           whileTap={{ scale: 0.9 }}
           className="glow-button"
         >
-          <Link to="/buddhism">Buddhism ☸️</Link>
+          <Link to="/buddhist">Buddhism ☸️</Link>
         </motion.button>
       </div>
 
