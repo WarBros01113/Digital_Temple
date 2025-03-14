@@ -42,7 +42,7 @@ def retrieve_context(question):
 # ✅ Generate response using Gemini
 def get_gemini_response(question, context):
     model = genai.GenerativeModel("gemini-1.5-pro")
-    prompt = f"Context: {context}\n\nQuestion: {question}\n\nAnswer in 7-8 lines as a wise sage from the Bible."
+    prompt = f"Context: {context}\n\nQuestion: {question}\n\nAnswer in 7-8 lines as a wise sage from the Bible.And give it in easy sentences and follow grammatical rules"
     response = model.generate_content(prompt)
     return response.text.strip()
 

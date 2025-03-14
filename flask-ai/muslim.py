@@ -42,7 +42,7 @@ def retrieve_context(question):
 # ✅ Generate response using Gemini
 def get_gemini_response(question, context):
     model = genai.GenerativeModel("gemini-1.5-pro")
-    prompt = f"Context: {context}\n\nQuestion: {question}\n\nAnswer in 7-8 lines as a wise sage from the Quran."
+    prompt = f"Context: {context}\n\nQuestion: {question}\n\nAnswer in 7-8 lines as an Islamic scholar.And give it in easy sentences and follow grammatical rules"
     response = model.generate_content(prompt)
     return response.text.strip()
 
@@ -55,7 +55,7 @@ def home():
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Digital Mosque</title>
+        <title>Digital Muslim AI</title>
         <style>
             * { margin: 0; padding: 0; box-sizing: border-box; }
             body {
@@ -104,7 +104,7 @@ def home():
             }
             input[type="submit"] {
                 padding: 12px 20px;
-                background: #007bff;
+                background: #ff6600;
                 border: none;
                 color: white;
                 font-weight: bold;
@@ -113,19 +113,19 @@ def home():
                 transition: all 0.3s ease-in-out;
             }
             input[type="submit"]:hover {
-                background: #0056b3;
+                background: #cc5200;
                 box-shadow: 0px 0px 20px rgba(255, 255, 255, 0.5);
             }
         </style>
     </head>
     <body>
         <video autoplay loop class="background-video" id="bgVideo">
-            <source src="static/videos/background.mp4" type="video/mp4">
+            <source src="static/videos/m_answer.mp4" type="video/mp4">
         </video>
         <div class="container">
             <div class="glass-box">
-                <h1>Ask Islam AI</h1>
-                <form action="/get_response_islam" method="POST">
+                <h1>Ask Muslim AI</h1>
+                <form action="/get_response_muslim" method="POST">
                     <input type="text" name="question" placeholder="Ask your question..." required>
                     <input type="submit" value="Get Wisdom">
                 </form>
@@ -135,8 +135,8 @@ def home():
     </html>
     '''
 
-@app.route('/get_response_islam', methods=['POST'])
-def get_response_islam():
+@app.route('/get_response_muslim', methods=['POST'])
+def get_response_muslim():
     data = request.get_json()
     question = data.get("question") if data else request.form.get("question")
 
@@ -204,7 +204,7 @@ def get_response_islam():
             a {{
                 display: block;
                 margin-top: 20px;
-                color: #007bff;
+                color: #ff6600;
                 font-size: 1.2rem;
                 text-decoration: none;
             }}
@@ -233,7 +233,7 @@ def get_response_islam():
         </div>
         <div class="video-container">
             <video autoplay loop muted playsinline class="background-video" id="bgVideo">
-                <source src="{{ url_for('static', filename='videos/background.mp4') }}" type="video/mp4">
+                <source src="{{ url_for('static', filename='images/allah.jpg') }}" type="video/mp4">
             </video>
         </div>
     </body>
