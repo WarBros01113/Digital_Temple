@@ -6,23 +6,23 @@ from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_huggingface import HuggingFaceEmbeddings
 from flask_cors import CORS
 
-# ✅ Set up Gemini API Key
+
 from dotenv import load_dotenv
 load_dotenv()
 
-# ✅ Read values from .env
+
 GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
 genai.configure(api_key=GOOGLE_API_KEY)
 
-# ✅ Flask App
+
 app = Flask(__name__, static_folder="static")
 CORS(app, resources={r"/*": {"origins": "*"}})
 
-# ✅ Paths
+
 DATA_PATH = "faiss_index"
 TEXT_PATH = "Bible.txt"
 
-# ✅ Load FAISS Index (or create if missing)
+
 if os.path.exists(DATA_PATH):
     vectorstore = FAISS.load_local(DATA_PATH, HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2"), allow_dangerous_deserialization=True)
     retriever = vectorstore.as_retriever(search_kwargs={"k": 3})
