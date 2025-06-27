@@ -6,7 +6,7 @@ import App from "./App";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
-  <GoogleOAuthProvider clientId="971448906126-khini0p1f8jrd62b5c8s39sednkvtmsj.apps.googleusercontent.com">
+  <GoogleOAuthProvider clientId="211527727-v3utac8cn7igiovqjadmoalafsdjv9d5.apps.googleusercontent.com">
     <App />
   </GoogleOAuthProvider>
 );
