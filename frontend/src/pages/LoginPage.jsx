@@ -1,16 +1,16 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom"; // Import useNavigate
-import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
+import { useNavigate } from "react-router-dom";
+import { GoogleLogin } from "@react-oauth/google";
 import { motion } from "framer-motion";
-import "./RegisterPage.css"; // Reusing the same CSS for consistency
+import "./RegisterPage.css";
 
 const LoginPage = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const navigate = useNavigate(); // Initialize navigate
+  const navigate = useNavigate();
 
   const handleLogin = async (e) => {
-    e.preventDefault(); // Prevent form default behavior
+    e.preventDefault();
 
     try {
       const response = await fetch("http://localhost:5000/api/auth/login", {
@@ -19,13 +19,12 @@ const LoginPage = () => {
         body: JSON.stringify({ username, password }),
       });
 
-      // Check if response is valid JSON before parsing
       const text = await response.text();
       const data = text ? JSON.parse(text) : {};
 
       if (response.ok) {
         alert(data.message || "Login successful!");
-        navigate("/select-religion"); // Redirect after successful login
+        navigate("/select-religion");
       } else {
         alert(data.message || "Login failed. Please check your credentials.");
       }
@@ -49,7 +48,6 @@ const LoginPage = () => {
       >
         <h1 className="register-title">🌌 Divine Login ✨</h1>
 
-        {/* ✅ Wrapped inputs in a <form> */}
         <form onSubmit={handleLogin}>
           <input
             type="text"
@@ -77,19 +75,16 @@ const LoginPage = () => {
           </motion.button>
         </form>
 
-        <GoogleOAuthProvider clientId="971448906126-khini0p1f8jrd62b5c8s39sednkvtmsj.apps.googleusercontent.com">
-          <GoogleLogin
-            useOneTap
-            onSuccess={(credentialResponse) => {
-              console.log("Google Sign-in Success:", credentialResponse);
-              navigate("/select-religion");
-            }}
-            onError={() => console.log("Google Sign-in Failed")}
-          />
-        </GoogleOAuthProvider>
+        {/* ✅ Google Login Button - No Provider here */}
+        <GoogleLogin
+          onSuccess={(credentialResponse) => {
+            console.log("Google Sign-in Success:", credentialResponse);
+            navigate("/select-religion");
+          }}
+          onError={() => console.log("Google Sign-in Failed")}
+        />
       </motion.div>
 
-      {/* Footer */}
       <footer className="footer">
         &copy; 2025 TVARES. All rights reserved.
       </footer>
