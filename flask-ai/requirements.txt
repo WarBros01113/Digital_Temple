@@ -4,3 +4,6 @@ google-generativeai
 faiss-cpu
 langchain
 sentence-transformers
+gunicorn
+pymongo
+python-dotenv
